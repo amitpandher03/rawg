@@ -19,22 +19,21 @@ const Search = () => {
 
   useEffect(() => {
     const searchGames = async () => {
-      if (!query && !filters.genre) return
+      if (!searchParams.get('q') && (!query || !filters.genre)) return
 
-      
-      
-      
       setLoading(true)
       try {
         let url = `https://api.rawg.io/api/games?key=${API_KEY}&page_size=24&ordering=${filters.ordering}`
-        
-        if (query) url += `&search=${query}`
+
+        if (query || searchParams.get('q')) url += `&search=${query || searchParams.get('q')}`
         if (filters.platform) url += `&platforms=${filters.platform}`
         if (filters.genre) url += `&genres=${filters.genre}`
 
         const response = await fetch(url)
         const data = await response.json()
         setGames(data.results)
+        console.log(data.results);
+
         setLoading(false)
       } catch (error) {
         console.error('Error searching games:', error)
@@ -43,7 +42,7 @@ const Search = () => {
     }
 
     searchGames()
-  }, [query, filters])
+  }, [query, searchParams, filters])
 
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters)
@@ -61,7 +60,8 @@ const Search = () => {
       <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
         <div>
           <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            {query ? `Search Results for "${query}"` : 'Browse Games'}
+            {/* {query ? `Search Results for "${query}"` : 'Browse Games'} */}
+            {searchParams.get('q') ? `Search Results for "${searchParams.get('q').charAt(0).toUpperCase() + searchParams.get('q').slice(1)}"` : query ? `Search Results for "${query.charAt(0).toUpperCase() + query.slice(1)}"` : 'Browse Games'}
           </h1>
           <p className="text-gray-400 mt-2">
             {games.length} games found
@@ -109,8 +109,8 @@ const Search = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {games.map((game) => (
-            <Link 
-              to={`/game/${game.id}`} 
+            <Link
+              to={`/game/${game.id}`}
               key={game.id}
               className="group bg-gray-800/50 rounded-2xl overflow-hidden hover:transform hover:scale-[1.02] transition-all duration-300 border border-gray-700 hover:border-purple-500/50"
             >
@@ -123,9 +123,9 @@ const Search = () => {
                 />
                 {game.metacritic && (
                   <div className={`absolute top-2 right-2 px-2 py-1 rounded-lg text-sm font-medium
-                    ${game.metacritic >= 80 ? 'bg-green-500/20 text-green-400' : 
-                      game.metacritic >= 60 ? 'bg-yellow-500/20 text-yellow-400' : 
-                      'bg-red-500/20 text-red-400'}`}>
+                    ${game.metacritic >= 80 ? 'bg-green-500/20 text-green-400' :
+                      game.metacritic >= 60 ? 'bg-yellow-500/20 text-yellow-400' :
+                        'bg-red-500/20 text-red-400'}`}>
                     {game.metacritic}
                   </div>
                 )}

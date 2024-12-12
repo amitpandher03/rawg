@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { FaSearch, FaGamepad, FaUser, FaHeart, FaBars, FaTimes } from 'react-icons/fa'
 import { useAuth } from '../../contexts/AuthContext'
@@ -6,9 +6,40 @@ import AutoCompleteCardUi from '../AutoCompleteCardUi'
 
 const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState('')
+  const [searchTermState, setSearchTermState] = useState('')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+
+  const handleSearch = async (e) => {
+    if (e.key === 'Enter' || e.type === 'submit') {
+      e.preventDefault()
+      const newSearchTerm = searchTermState.trim()
+      if (newSearchTerm && newSearchTerm !== '') {
+        try {
+          const response = await fetch(`https://api.rawg.io/api/games?key=${import.meta.env.VITE_RAWG_API_KEY}&search=${encodeURI(newSearchTerm)}`)
+          const data = await response.json()
+          const results = data.results;
+          console.log('results', results);
+  
+          navigate(`/search?q=${newSearchTerm}`);
+          console.log(newSearchTerm);
+  
+          setIsMenuOpen(false)
+          setSearchTerm('')
+          setSearchTermState('')
+
+        } catch (error) {
+          console.error('Errore durante la ricerca dei giochi:', error)
+        }
+      }
+    }
+  }
+  
+  // Aggiorna il valore di searchTermState quando il valore di searchTerm cambia
+  useEffect(() => {
+    setSearchTermState(searchTerm)
+  }, [searchTerm])
 
   const handleLogout = async () => {
     try {
@@ -28,40 +59,25 @@ const Navbar = () => {
           <Link to="/" className="flex items-center space-x-3 group">
             <FaGamepad className="text-3xl text-purple-500 group-hover:rotate-12 transition-transform duration-300" />
             <span className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-              GameVault
+              ReHacktor
             </span>
           </Link>
 
           {/* Search Bar with glass effect */}
-          {/* <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-xl mx-4">
-            <div className="relative w-full">
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search games..."
-                className="w-full px-6 py-3 rounded-full bg-gray-800/50 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 border border-gray-700 backdrop-blur-sm"/>
-              <button
-                type="submit"
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-purple-500 transition-colors">
-                <FaSearch />
-              </button>
-            </div>
-          </form> */}
           <AutoCompleteCardUi />
 
           {/* Navigation Links with hover effects */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link 
-              to="/categories" 
+            <Link
+              to="/categories"
               className="relative group"
             >
               <span className="text-gray-300 hover:text-white transition-colors">Categories</span>
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-purple-500 group-hover:w-full transition-all duration-300"></span>
             </Link>
-            
-            <Link 
-              to="/trending" 
+
+            <Link
+              to="/trending"
               className="relative group"
             >
               <span className="text-gray-300 hover:text-white transition-colors">Trending</span>
@@ -131,14 +147,16 @@ const Navbar = () => {
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                onBlur={() => setSearchTermState(searchTerm)}
+                onKeyDown={handleSearch}
                 placeholder="Search games..."
-                className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full mt-4 px-4 py-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500" 
               />
               <button
                 type="submit"
                 className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
               >
-                <FaSearch />
+                <FaSearch className='mt-4' />
               </button>
             </div>
           </form>
@@ -158,7 +176,7 @@ const Navbar = () => {
             >
               Trending
             </Link>
-            
+
             {user ? (
               <>
                 <Link
