@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { FaGamepad, FaArrowRight } from 'react-icons/fa'
+import Footer from '../components/Footer/Footer'
 
 const Categories = () => {
   const [genres, setGenres] = useState([])
@@ -104,7 +105,7 @@ const Categories = () => {
       {/* Bottom CTA */}
       <div className="text-center mt-12 py-12 bg-gradient-to-r from-purple-900/20 to-pink-900/20 rounded-2xl backdrop-blur-sm">
         <h3 className="text-2xl font-bold mb-4">
-          Can't find what you're looking for?
+          Can&apos;t find what you&apos;re looking for?
         </h3>
         <Link
           to="/"
@@ -114,7 +115,9 @@ const Categories = () => {
           <FaArrowRight className="ml-2" />
         </Link>
       </div>
-    </div>
+      <Footer />
+    </div> 
+    
   )
 }
 

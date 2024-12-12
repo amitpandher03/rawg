@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import InfiniteScroll from '../components/InfiniteScroll'
 import { FaStar, FaArrowRight } from 'react-icons/fa'
+import InfiniteScroll from '../components/Features/InfiniteScroll'
+
 
 const Home = () => {
   const [games, setGames] = useState([])
@@ -44,7 +45,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="relative -mt-8 mb-12 overflow-hidden">
+      <div className="relative mt-3 mb-12 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/90 to-pink-900/90 z-10" />
         <img
           src="/hero-bg.jpg"
@@ -69,7 +70,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-
+    
       <InfiniteScroll
         loadMore={loadMore}
         hasMore={hasMore}

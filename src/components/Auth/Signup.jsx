@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+
+import { useState } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { useNavigate, Link } from 'react-router-dom'
 import { FaEnvelope, FaLock, FaUser, FaGamepad, FaGithub } from 'react-icons/fa'
@@ -10,8 +11,8 @@ const Signup = () => {
   const [username, setUsername] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const { signup, loginWithGithub } = useAuth()
-  const navigate = useNavigate()
+  const {signup, loginWithGithub } = useAuth()
+  const Navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -23,30 +24,34 @@ const Signup = () => {
     try {
       setError('')
       setLoading(true)
-      await signup(email, password, username)
-      navigate('/')
-    } catch (error) {
-      setError('Failed to create an account: ' + error.message)
-    }
-    setLoading(false)
-  }
-
-  const handleGithubSignup = async () => {
-    try {
-      setError('')
-      setLoading(true)
-      const result = await loginWithGithub()
-      console.log('GitHub signup result:', result) // Debug log
+      const result = await signup(email, password, username)
+      console.log('Signup result:', result) // Debug log
       if (result && result.user) {
-        navigate('/', { replace: true })
+        Navigate('/', { replace: true })
       }
     } catch (error) {
-      console.error('GitHub signup error:', error) // Debug log
-      setError('Failed to sign up with GitHub: ' + error.message)
+      setError('Failed to create an account: ' + error.message)
     } finally {
       setLoading(false)
     }
   }
+
+   const handleGithubSignup = async () => {
+     try {
+       setError('')
+       setLoading(true)
+       const result = await loginWithGithub()
+       console.log('GitHub signup result:', result) // Debug log
+
+         Navigate('/')
+         
+     } catch (error) {
+       console.error('GitHub signup error:', error) // Debug log
+       setError('Failed to sign up with GitHub: ' + error.message)
+     } finally {
+       setLoading(false)
+     }
+   }
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12">
@@ -194,8 +199,8 @@ const Signup = () => {
         {/* Login Link */}
         <p className="text-center text-sm text-gray-400">
           Already have an account?{' '}
-          <Link 
-            to="/login" 
+          <Link
+            to="/login"
             className="font-medium text-purple-400 hover:text-purple-300 transition-colors duration-200"
           >
             Sign in here

@@ -1,7 +1,6 @@
+// eslint-disable-next-line no-unused-vars
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { AuthProvider } from './contexts/AuthContext'
-import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import GameDetails from './pages/GameDetails'
 import Search from './pages/Search'
@@ -9,7 +8,9 @@ import Trending from './pages/Trending'
 import Categories from './pages/Categories'
 import Login from './components/Auth/Login'
 import Signup from './components/Auth/Signup'
-import Footer from './components/Footer'
+import Navbar from './components/Navbar/Navbar'
+import { AuthProvider } from './contexts/AuthContext'
+
 
 const App = () => {
   return (
@@ -28,7 +29,7 @@ const App = () => {
               <Route path="/signup" element={<Signup redirect="/" />} />
             </Routes>
           </main>
-          <Footer />
+
         </div>
       </BrowserRouter>
     </AuthProvider>

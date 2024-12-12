@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { FaArrowLeft, FaArrowRight, FaTimes } from 'react-icons/fa'
 
+// eslint-disable-next-line react/prop-types
 const ScreenshotsGallery = ({ gameId }) => {
   const [screenshots, setScreenshots] = useState([])
   const [loading, setLoading] = useState(true)

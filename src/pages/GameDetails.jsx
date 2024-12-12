@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { FaStar, FaDesktop, FaPlaystation, FaXbox, FaWindows, FaExternalLinkAlt } from 'react-icons/fa'
-import LoadingSkeleton from '../components/LoadingSkeleton'
-import ScreenshotsGallery from '../components/ScreenshotsGallery'
-import GameAchievements from '../components/GameAchievements'
+import { FaStar, FaExternalLinkAlt } from 'react-icons/fa'
+import LoadingSkeleton from '../components/Features/LoadingSkeleton'
+import ScreenshotsGallery from '../components/Game/ScreenshotsGallery'
+import GameAchievements from '../components/Game/GameAchievements'
 
 const GameDetails = () => {
   const { id } = useParams()

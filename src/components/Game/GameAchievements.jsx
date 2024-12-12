@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { FaTrophy } from 'react-icons/fa'
 
+// eslint-disable-next-line react/prop-types
 const GameAchievements = ({ gameId }) => {
   const [achievements, setAchievements] = useState([])
   const [loading, setLoading] = useState(true)

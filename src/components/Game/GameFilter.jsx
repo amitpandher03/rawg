@@ -1,6 +1,7 @@
+// eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { FaSort } from 'react-icons/fa'
 
+// eslint-disable-next-line react/prop-types
 const GameFilter = ({ onFilterChange, onSortChange, currentFilters }) => {
   const platforms = [
     { id: 4, name: 'PC' },
@@ -24,6 +25,7 @@ const GameFilter = ({ onFilterChange, onSortChange, currentFilters }) => {
           <select
             className="w-full bg-gray-700 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             onChange={(e) => onFilterChange('platform', e.target.value)}
+            // eslint-disable-next-line react/prop-types
             value={currentFilters.platform || ''}
           >
             <option value="">All Platforms</option>
@@ -40,6 +42,7 @@ const GameFilter = ({ onFilterChange, onSortChange, currentFilters }) => {
           <select
             className="w-full bg-gray-700 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             onChange={(e) => onSortChange(e.target.value)}
+            // eslint-disable-next-line react/prop-types
             value={currentFilters.sort || '-rating'}
           >
             {sortOptions.map((option) => (
@@ -55,6 +58,7 @@ const GameFilter = ({ onFilterChange, onSortChange, currentFilters }) => {
           <select
             className="w-full bg-gray-700 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             onChange={(e) => onFilterChange('metacritic', e.target.value)}
+            // eslint-disable-next-line react/prop-types
             value={currentFilters.metacritic || ''}
           >
             <option value="">Any Score</option>

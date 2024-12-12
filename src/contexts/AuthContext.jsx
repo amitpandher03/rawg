@@ -1,18 +1,21 @@
-import React, { createContext, useState, useContext, useEffect } from 'react'
-import { 
-  auth, 
-  db,
-  githubProvider 
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+import { createContext, useState, useContext, useEffect } from 'react'
+import {
+  auth
 } from '../config/firebase'
 import {
+  GithubAuthProvider,
+  getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
   signInWithPopup
 } from 'firebase/auth'
-import { doc, setDoc, getDoc } from 'firebase/firestore'
 
+const provider = new GithubAuthProvider();
 const AuthContext = createContext()
 
 export function useAuth() {
@@ -22,19 +25,24 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
-
   async function signup(email, password, username) {
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-      
-      // Create user profile in Firestore
-      await setDoc(doc(db, 'users', userCredential.user.uid), {
-        username,
-        email,
-        createdAt: new Date().toISOString()
-      })
-      
-      return userCredential
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, email, password, username)
+        .then((userCredential) => {
+          // Signed up 
+          const user = userCredential.user;
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+
+          console.log(errorCode, errorMessage)
+
+          // ..
+        });
+
     } catch (error) {
       console.error('Signup error:', error)
       throw new Error(error.message)
@@ -43,25 +51,20 @@ export function AuthProvider({ children }) {
 
   async function loginWithGithub() {
     try {
-      const result = await signInWithPopup(auth, githubProvider)
-      
-      // Check if user profile exists, if not create one
-      const userDoc = await getDoc(doc(db, 'users', result.user.uid))
-      
-      if (!userDoc.exists()) {
-        await setDoc(doc(db, 'users', result.user.uid), {
-          username: result.user.displayName,
-          email: result.user.email,
-          createdAt: new Date().toISOString()
-        })
-      }
-      
-      return result
-    } catch (error) {
-      console.error('Github login error:', error)
-      throw new Error(error.message)
+      const auth = getAuth();
+      const result = signInWithPopup(auth, provider)
+      const user = result.user;
+    } catch(error) {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // The email of the user's account used.
+          const email = error.customData.email;
+          // The AuthCredential type that was used.
+          const credential = GithubAuthProvider.credentialFromError(error);
+          // ...
+        };
     }
-  }
 
   const login = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password)
@@ -91,7 +94,9 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   )
-} 
+
+}
+

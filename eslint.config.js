@@ -24,6 +24,8 @@ export default [
       'react-refresh': reactRefresh,
     },
     rules: {
+      "react-hooks/rules-of-hooks": 'error',
+      "react-hooks/exhaustive-deps": 'warn',
       ...js.configs.recommended.rules,
       ...react.configs.recommended.rules,
       ...react.configs['jsx-runtime'].rules,

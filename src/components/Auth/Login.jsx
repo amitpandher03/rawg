@@ -1,18 +1,15 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { useNavigate, Link } from 'react-router-dom'
 import { FaEnvelope, FaLock, FaGamepad, FaGithub } from 'react-icons/fa'
-import { signInWithPopup, GithubAuthProvider } from 'firebase/auth'
-import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore'
-import { db, githubProvider } from '../../config/firebase'
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const { login, loginWithGithub } = useAuth()
-  const navigate = useNavigate()
+  const {login, loginWithGithub } = useAuth()
+  const Navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -20,7 +17,7 @@ const Login = () => {
       setError('')
       setLoading(true)
       await login(email, password)
-      navigate('/')
+      Navigate('/')
     } catch (error) {
       setError('Failed to sign in: ' + error.message)
     }
@@ -28,36 +25,19 @@ const Login = () => {
   }
 
   const handleGithubLogin = async () => {
+     // Check for online status
+     if (!navigator.onLine) {
+      throw new Error('No internet connection. Please check your network and try again.')
+    }
     try {
       setError('')
       setLoading(true)
-      
-      // Check for online status
-      if (!navigator.onLine) {
-        throw new Error('No internet connection. Please check your network and try again.')
-      }
+      const result = await loginWithGithub()
+      console.log('GitHub login result:', result) // Debug log
 
-      const result = await signInWithPopup(auth, githubProvider)
-      console.log('GitHub login result:', result)
-      
-      if (result && result.user) {
-        // Add user to Firestore if they don't exist
-        const userRef = doc(db, 'users', result.user.uid)
-        const userSnap = await getDoc(userRef)
-        
-        if (!userSnap.exists()) {
-          await setDoc(userRef, {
-            email: result.user.email,
-            displayName: result.user.displayName,
-            photoURL: result.user.photoURL,
-            createdAt: serverTimestamp()
-          })
-        }
-        
-        navigate('/', { replace: true })
-      }
+        Navigate('/')
+
     } catch (error) {
-      console.error('GitHub login error:', error)
       if (error.code === 'auth/popup-blocked') {
         setError('Popup was blocked. Please allow popups for this site.')
       } else if (error.code === 'auth/popup-closed-by-user') {
@@ -176,7 +156,7 @@ const Login = () => {
 
         {/* Sign Up Link */}
         <p className="text-center text-sm text-gray-400">
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link 
             to="/signup" 
             className="font-medium text-purple-400 hover:text-purple-300 transition-colors duration-200"

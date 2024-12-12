@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { FaStar, FaSearch, FaFilter, FaTimes } from 'react-icons/fa'
-import GameFilter from '../components/GameFilter'
+import GameFilter from '../components/Game/GameFilter'
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const [games, setGames] = useState([])
   const [loading, setLoading] = useState(true)
   const [showFilters, setShowFilters] = useState(false)
-  const query = searchParams.get('q')
+  const query = searchParams.get('genre')
   const API_KEY = import.meta.env.VITE_RAWG_API_KEY
 
   const [filters, setFilters] = useState({
@@ -20,6 +20,9 @@ const Search = () => {
   useEffect(() => {
     const searchGames = async () => {
       if (!query && !filters.genre) return
+
+      
+      
       
       setLoading(true)
       try {

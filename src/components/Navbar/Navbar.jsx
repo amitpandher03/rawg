@@ -1,22 +1,14 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { FaSearch, FaGamepad, FaUser, FaHeart, FaBars, FaTimes } from 'react-icons/fa'
-import { useAuth } from '../contexts/AuthContext'
+import { useAuth } from '../../contexts/AuthContext'
+import AutoCompleteCardUi from '../AutoCompleteCardUi'
 
 const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { user, logout } = useAuth()
   const navigate = useNavigate()
-
-  const handleSearch = (e) => {
-    e.preventDefault()
-    if (searchTerm.trim()) {
-      navigate(`/search?q=${searchTerm}`)
-      setSearchTerm('')
-      setIsMenuOpen(false)
-    }
-  }
 
   const handleLogout = async () => {
     try {
@@ -41,23 +33,22 @@ const Navbar = () => {
           </Link>
 
           {/* Search Bar with glass effect */}
-          <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-xl mx-4">
+          {/* <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-xl mx-4">
             <div className="relative w-full">
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search games..."
-                className="w-full px-6 py-3 rounded-full bg-gray-800/50 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 border border-gray-700 backdrop-blur-sm"
-              />
+                className="w-full px-6 py-3 rounded-full bg-gray-800/50 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 border border-gray-700 backdrop-blur-sm"/>
               <button
                 type="submit"
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-purple-500 transition-colors"
-              >
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-purple-500 transition-colors">
                 <FaSearch />
               </button>
             </div>
-          </form>
+          </form> */}
+          <AutoCompleteCardUi />
 
           {/* Navigation Links with hover effects */}
           <div className="hidden md:flex items-center space-x-8">

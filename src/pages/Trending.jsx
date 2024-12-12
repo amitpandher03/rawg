@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import GameFilter from '../components/GameFilter'
+import GameFilter from '../components/Game/GameFilter'
 import { FaStar, FaFire } from 'react-icons/fa'
 
 const Trending = () => {
