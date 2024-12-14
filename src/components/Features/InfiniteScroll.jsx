@@ -3,6 +3,7 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import LoadingSkeleton from './LoadingSkeleton'
+
 const InfiniteScroll = ({ children, loadMore, hasMore, loading }) => {
   const observerTarget = useRef(null)
   const [isIntersecting, setIsIntersecting] = useState(false)
@@ -11,10 +12,8 @@ const InfiniteScroll = ({ children, loadMore, hasMore, loading }) => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsIntersecting(entry.isIntersecting)
-        
       },
-      { threshold: 1.0 }
-      
+      { threshold: 0.1 }
     )
 
     if (observerTarget.current) {
@@ -30,29 +29,27 @@ const InfiniteScroll = ({ children, loadMore, hasMore, loading }) => {
 
   useEffect(() => {
     if (isIntersecting && hasMore && !loading) {
-      (setTimeout(() => { loadMore()
-        // codice da eseguire dopo 0,5 secondo
-      }, 500))
+      loadMore()
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isIntersecting, hasMore, loading])
+  }, [isIntersecting, hasMore, loading, loadMore])
 
   return (
-    <>
-
+    <div className="space-y-8">
       {children}
+      
       {hasMore && (
-        <div ref={observerTarget} className="h-20 flex items-center justify-center mt-5 mb-5">
+        <div ref={observerTarget} className="w-full">
           {loading && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full ">
-              {[1, 2, 3].map((n) => (
-                <LoadingSkeleton key={n} type="card" />
-              ))}
+            <div className="flex justify-center items-center py-8">
+              <div className="relative">
+                <div className="w-12 h-12 rounded-full border-4 border-purple-400 border-t-transparent animate-spin"></div>
+                <div className="w-12 h-12 rounded-full border-4 border-pink-400 border-t-transparent animate-spin absolute top-0 left-0 animate-ping"></div>
+              </div>
             </div>
           )}
         </div>
       )}
-    </>
+    </div>
   )
 }
 

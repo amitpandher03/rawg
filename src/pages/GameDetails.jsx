@@ -4,6 +4,8 @@ import { FaStar, FaExternalLinkAlt } from 'react-icons/fa'
 import LoadingSkeleton from '../components/Features/LoadingSkeleton'
 import ScreenshotsGallery from '../components/Game/ScreenshotsGallery'
 import GameAchievements from '../components/Game/GameAchievements'
+import FavoriteButton from '../components/FavoriteButton'
+import Comments from '../components/Game/Comments'
 
 const GameDetails = () => {
   const { id } = useParams()
@@ -48,9 +50,12 @@ const GameDetails = () => {
         />
         <div className="absolute bottom-0 left-0 right-0 p-8 z-20">
           <div className="max-w-7xl mx-auto">
-            <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
-              {game.name}
-            </h1>
+            <div className="flex items-start justify-between">
+              <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
+                {game.name}
+              </h1>
+              <FavoriteButton game={game} />
+            </div>
             <div className="flex items-center space-x-6 text-lg">
               <div className="flex items-center space-x-2">
                 <FaStar className="text-yellow-500" />
@@ -94,6 +99,13 @@ const GameDetails = () => {
               Achievements
             </h2>
             <GameAchievements gameId={id} />
+          </div>
+
+          <div className="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border border-gray-700">
+            <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              Comments
+            </h2>
+            <Comments gameId={id} />
           </div>
         </div>
 

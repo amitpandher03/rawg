@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { FaStar, FaArrowRight } from 'react-icons/fa'
 import InfiniteScroll from '../components/Features/InfiniteScroll'
+import FavoriteButton from '../components/FavoriteButton'
 
 
 const Home = () => {
@@ -88,9 +89,12 @@ const Home = () => {
                   className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
                 />
                 <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
-                  <h2 className="text-xl font-bold mb-2 group-hover:text-purple-400 transition-colors">
-                    {game.name}
-                  </h2>
+                  <div className="flex justify-between items-start mb-2">
+                    <h2 className="text-xl font-bold group-hover:text-purple-400 transition-colors">
+                      {game.name}
+                    </h2>
+                    <FavoriteButton game={game} />
+                  </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-500/20 text-purple-400">

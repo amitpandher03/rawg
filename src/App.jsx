@@ -3,14 +3,13 @@ import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import GameDetails from './pages/GameDetails'
-import Search from './pages/Search'
 import Trending from './pages/Trending'
 import Categories from './pages/Categories'
 import Login from './components/Auth/Login'
 import Signup from './components/Auth/Signup'
 import Navbar from './components/Navbar/Navbar'
+import Favorites from './pages/Favorites'
 import { AuthProvider } from './contexts/AuthContext'
-
 
 const App = () => {
   return (
@@ -22,14 +21,13 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/game/:id" element={<GameDetails />} />
-              <Route path="/search" element={<Search />} />
               <Route path="/trending" element={<Trending />} />
               <Route path="/categories" element={<Categories />} />
+              <Route path="/favorites" element={<Favorites />} />
               <Route path="/login" element={<Login redirect="/" />} />
               <Route path="/signup" element={<Signup redirect="/" />} />
             </Routes>
           </main>
-
         </div>
       </BrowserRouter>
     </AuthProvider>
