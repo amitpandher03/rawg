@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { useState } from 'react'
 import AutoCompleteCardUi from '../AutoCompleteCardUi'
+import { FaGamepad } from 'react-icons/fa'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -27,7 +28,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="text-xl font-bold">
-            GameVault
+            Rehacktor
           </Link>
 
           {/* Search - Hidden on mobile */}
@@ -37,9 +38,6 @@ const Navbar = () => {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-6">
-            <Link to="/trending" className="hover:text-purple-400 transition-colors">
-              Trending
-            </Link>
             <Link to="/categories" className="hover:text-purple-400 transition-colors">
               Categories
             </Link>
@@ -107,13 +105,6 @@ const Navbar = () => {
                   <p className="text-sm text-gray-400">{user.email}</p>
                 </div>
               )}
-              <Link 
-                to="/trending" 
-                className="px-4 py-2 hover:bg-gray-700 rounded-lg"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Trending
-              </Link>
               <Link 
                 to="/categories" 
                 className="px-4 py-2 hover:bg-gray-700 rounded-lg"
