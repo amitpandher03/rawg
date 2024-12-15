@@ -51,7 +51,7 @@ const Categories = () => {
             key={genre.id}
           >
             <Link 
-              to={`/search?genre=${genre.slug}`}
+              to={`/?genre=${genre.slug}`}
               className="group block relative overflow-hidden rounded-2xl bg-gray-800/50 backdrop-blur-sm border border-gray-700 hover:border-purple-500/50 transition-all duration-300 h-[320px]"
             >
               {/* Background Image with Overlay */}

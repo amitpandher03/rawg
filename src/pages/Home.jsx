@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { FaArrowRight, FaSearch, FaGamepad, FaFilter } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import InfiniteScroll from '../components/Features/InfiniteScroll'
@@ -7,6 +7,7 @@ import LoadingSkeleton from '../components/Features/LoadingSkeleton'
 import GameCard from '../components/Game/GameCard'
 
 const Home = () => {
+  const [searchParams] = useSearchParams();
   const [games, setGames] = useState([])
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
@@ -15,9 +16,19 @@ const Home = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
   const [filters, setFilters] = useState({
     platform: '',
-    genre: '',
+    genre: searchParams.get('genre') || '',
     sortBy: 'relevance'
   })
+
+  useEffect(() => {
+    const genreFromUrl = searchParams.get('genre');
+    if (genreFromUrl) {
+      setFilters(prev => ({
+        ...prev,
+        genre: genreFromUrl
+      }));
+    }
+  }, [searchParams]);
 
   const fetchGames = async (pageNumber) => {
     setLoading(true)
@@ -71,7 +82,7 @@ const Home = () => {
 
   return (
     <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-      {/* <motion.div 
+      <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
@@ -120,7 +131,7 @@ const Home = () => {
             </motion.div>
           </div>
         </div>
-      </motion.div> */}
+      </motion.div>
 
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
