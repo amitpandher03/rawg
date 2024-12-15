@@ -87,13 +87,13 @@ const Comments = ({ gameId }) => {
           </div>
         </form>
       ) : (
-        <div className="text-center p-6 bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl">
-          <p className="text-lg mb-4">Please login to join the discussion</p>
+        <div className="text-center py-8">
+          <p className="text-gray-400 mb-4">Please log in to leave a comment</p>
           <Link 
-            to="/login"
-            className="inline-flex px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 
-            hover:from-purple-700 hover:to-pink-700 rounded-xl transition-all duration-300 
-            transform hover:scale-105 font-medium"
+            to="/login" 
+            className="inline-flex items-center px-6 py-3 rounded-xl 
+            bg-purple-600 hover:bg-purple-700 
+            transform hover:scale-105 font-medium transition-all duration-300"
           >
             Login
           </Link>

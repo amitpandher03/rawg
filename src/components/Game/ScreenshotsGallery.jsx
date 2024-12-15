@@ -50,22 +50,30 @@ const ScreenshotsGallery = ({ gameId }) => {
 
   return (
     <>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 auto-rows-[200px]">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-6 auto-rows-[200px]">
         {screenshots.map((screenshot, index) => (
           <div
             key={screenshot.id}
             className={`cursor-pointer overflow-hidden rounded-xl group relative
+              border border-gray-700 hover:border-purple-500/50
+              transition-all duration-300 transform hover:scale-[1.02]
               ${index % 3 === 0 ? 'row-span-2' : ''}`}
             onClick={() => setSelectedImage(screenshot)}
           >
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-10" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent 
+            to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-10" />
             <img
               src={screenshot.image}
               alt="Game Screenshot"
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
-            <div className="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity z-20">
-              <span className="text-sm font-medium">Click to view</span>
+            <div className="absolute bottom-0 left-0 right-0 p-6 text-white opacity-0 
+            group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-y-0 
+            translate-y-2 z-20">
+              <span className="inline-flex items-center px-4 py-2 rounded-lg 
+              bg-purple-500/20 backdrop-blur-sm text-purple-300 text-sm font-medium">
+                Click to view fullscreen
+              </span>
             </div>
           </div>
         ))}
@@ -74,13 +82,15 @@ const ScreenshotsGallery = ({ gameId }) => {
       {/* Modal with zoom effect */}
       {selectedImage && (
         <div 
-          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center"
+          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center 
+          backdrop-blur-sm"
           onClick={() => setSelectedImage(null)}
         >
           <div className="relative w-full max-w-7xl px-4 animate-fade-in">
             <button
               onClick={() => setSelectedImage(null)}
-              className="absolute top-4 right-4 text-white/80 hover:text-white transition-colors"
+              className="absolute -top-12 right-4 text-white/80 hover:text-white 
+              transition-colors p-2 rounded-full bg-gray-800/50 hover:bg-gray-700/50"
             >
               <FaTimes size={24} />
             </button>
@@ -88,7 +98,7 @@ const ScreenshotsGallery = ({ gameId }) => {
             <img
               src={selectedImage.image}
               alt="Game Screenshot"
-              className="w-full h-auto rounded-lg shadow-2xl"
+              className="w-full h-auto rounded-xl shadow-2xl border border-gray-700"
             />
 
             <div className="absolute left-4 right-4 bottom-4 flex justify-between">
@@ -97,9 +107,10 @@ const ScreenshotsGallery = ({ gameId }) => {
                   e.stopPropagation()
                   handlePrevious()
                 }}
-                className="p-2 rounded-full bg-black/50 hover:bg-black/70 transition-colors"
+                className="p-4 rounded-full bg-gray-800/50 hover:bg-gray-700/50 
+                backdrop-blur-sm transition-all duration-300 transform hover:scale-110"
               >
-                <FaArrowLeft size={20} />
+                <FaArrowLeft size={24} />
               </button>
 
               <button
@@ -107,9 +118,10 @@ const ScreenshotsGallery = ({ gameId }) => {
                   e.stopPropagation()
                   handleNext()
                 }}
-                className="p-2 rounded-full bg-black/50 hover:bg-black/70 transition-colors"
+                className="p-4 rounded-full bg-gray-800/50 hover:bg-gray-700/50 
+                backdrop-blur-sm transition-all duration-300 transform hover:scale-110"
               >
-                <FaArrowRight size={20} />
+                <FaArrowRight size={24} />
               </button>
             </div>
           </div>
